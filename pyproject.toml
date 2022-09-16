@@ -1,9 +1,13 @@
 [tool.poetry]
 name = "django_bitgo"
-version = "0.1.0"
+version = "0.1.1"
 description = "Django app for bitGo"
 authors = ["panosangelopoulos <panos.angelopoulos@outlook.com>"]
 license = "MIT"
+homepage = "https://github.com/panosangelopoulos/django_bitgo"
+repository = "https://github.com/panosangelopoulos/django_bitgo"
+readme = "README.md"
+keywords = ["django", "bitgo", "django_bitgo"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
