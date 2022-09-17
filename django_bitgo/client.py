@@ -7,14 +7,14 @@ from django_bitgo.exceptions import BitGoException
 
 
 class BitGoClient(object):
-    def __init__(self, access_token) -> None:
+    def __init__(self, access_token: str = "") -> None:
         """
         Initializes the BitGo Client
 
         :param str access_token: Access Token to authenticate with
         """
 
-        self.access_token = access_token or os.env.get("BITGO_ACCESS_TOKEN")
+        self.access_token = access_token or os.getenv("BITGO_ACCESS_TOKEN")
 
         if not self.access_token:
             raise BitGoException("Access token is required to create a BitGoClient")
@@ -24,10 +24,13 @@ class BitGoClient(object):
 
         return requests.request(
             method=method,
-            url=f"{self.get_api_url()}{path}",
+            url=f"{self.get_api_url()}{settings.BITGO_API_VERSION}{path}",
             headers=headers,
             data=payload,
         )
 
     def get_api_url(self):
         return settings.BITGO_API_URL
+
+    def get_api_version(self):
+        return settings.BITGO_API_VERSION
