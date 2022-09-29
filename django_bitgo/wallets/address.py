@@ -5,15 +5,12 @@ from django_bitgo.client import BitGoClient
 from django_bitgo.exceptions import BitGoException
 
 
-class Address(object):
-    def __init__(self) -> None:
-        self.client = BitGoClient()
-        self.wallet_id = settings.BITGO_WALLET_ID
+class Address:
+    def __init__(self, client, wallet_id) -> None:
+        self.client = client or BitGoClient()
+        self.wallet_id = wallet_id or settings.BITGO_WALLET_ID
 
     def list_addresses(self, coin: str = "tbtc", wallet_id: str = ""):
-        if not wallet_id:
-            wallet_id = self.wallet_id
-
         try:
             response = self.client.request(
                 method="GET", path=f"{coin}/wallet/{wallet_id}/addresses"
@@ -27,9 +24,6 @@ class Address(object):
     def create_address(
         self, coin: str = "tbtc", wallet_id: str = "", payload: dict = {}
     ):
-        if not wallet_id:
-            wallet_id = self.wallet_id
-
         try:
             response = self.client.request(
                 method="POST",
@@ -52,9 +46,6 @@ class Address(object):
         if not address_id:
             raise BitGoException("Address id is missing but required.")
 
-        if not wallet_id:
-            wallet_id = self.wallet_id
-
         try:
             response = self.client.request(
                 method="POST",
@@ -70,9 +61,6 @@ class Address(object):
     def get_address(self, address_id: str, coin: str = "tbtc", wallet_id: str = ""):
         if not address_id:
             raise BitGoException("Address id is missing but required.")
-
-        if not wallet_id:
-            wallet_id = self.wallet_id
 
         try:
             response = self.client.request(
